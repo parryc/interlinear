@@ -1,0 +1,31 @@
+.float {
+  margin-right: 0.5em;
+  text-align: left;
+  float: left;
+}
+
+.morpheme {
+  font-variant: small-caps;
+}
+
+.interlinear {
+  clear: both;
+}
+
+.spacer {
+  height: 0;
+}
+
+.unaligned {
+  clear: both;
+  float: none;
+}
+
+.over {
+}
+
+.under {
+}
+
+.language-default {
+}
