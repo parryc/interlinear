@@ -11,6 +11,18 @@ If you want to call it explicitly, there is a variable ```gloss``` that controls
 * Calling the layout function: ```gloss.setGloss()```
 * Reconfiguring (calls ```setGloss()``` automatically) is done by passing in any options you want to change to the configure function ```gloss.configure({ ... options ... })```
 
+Within the body of your webpage it's pretty simple. Within the gloss div, just make sure each line is delineated by a ```<br/>``` tag.
+
+```html
+<div class="gloss">
+	ཟིང་འཁྲུགས་ ལང་མདོག་ ཁ་པོ་ རེད་<br/>
+	zing-'khrugs lang-mdog kha-po red<br/>
+	unrest arise-*nom* likely-*nom* be
+</div>
+```
+
+If you change the class name, make sure to reconfigure ```gloss```. 
+
 ## Options
 
 * ```selector: ".gloss"``` The class selector for encapsulating divs
