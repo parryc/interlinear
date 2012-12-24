@@ -1,0 +1,12 @@
+.formatted-gloss {
+	clear: both;
+}
+
+.gloss-segment {
+	float: left;
+	margin-right: 10px;
+}
+
+.gloss-error {
+	color: red;
+}
