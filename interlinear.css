@@ -1,3 +1,7 @@
+.clearfix {
+	clear: both;
+}
+
 .formatted-gloss {
 	clear: both;
 }
@@ -9,4 +13,13 @@
 
 .gloss-error {
 	color: red;
+}
+
+.morpheme {
+	font-variant: small-caps;
+}
+
+.morpheme-fake-caps {
+	font-size: .7em;
+	text-transform: uppercase;
 }

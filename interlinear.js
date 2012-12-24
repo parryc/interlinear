@@ -6,21 +6,25 @@
 	//default options
 	var options = {
 				defaultSelector: ".gloss",
-				showFormattingErrors: true,
+				showFormattingErrors: false,
 				useSmallCaps: true,
-				useCharosSmallCaps: false,
-				useCustomSmallCaps: false,
-				customSmallCapsName: ""
-			},
-		raw = document.querySelectorAll(".gloss");
+				useFakeSmallCaps: false
+			};
+		//raw = document.querySelectorAll(".gloss");
 	function gloss(){
 		return {
 			options: options,
+			raw: {},
 			layout: function(line){
 				var preformatArray = line.split(/\s+(?!\/)/).filter(function (d) { return (d !== ""); });
 
-				if(options.useSmallCaps)
-					preformatArray = preformatArray.map(setSmallCaps);
+				if(options.useSmallCaps){
+					if(options.useFakeSmallCaps)
+						preformatArray = preformatArray.map(setFakeSmallCaps);
+					else
+						preformatArray = preformatArray.map(setSmallCaps);
+				}
+					
 
 
 				return preformatArray;
@@ -33,17 +37,21 @@
 				this.setGloss();
 			},
 			setGloss: function(){
-				var glosses = document.querySelectorAll(this.options.defaultSelector);
-				/*
-					TODO: convert first grabbing of glosses to array list to store as raw data
-					then go through, that way configurations can be added on the fly
-					// nl is the nodelist
-					var arr = [];
-					for(var i = nl.length; i--; arr.unshift(nl[i]));
+				var selector = this.options.defaultSelector,
+					glosses = document.querySelectorAll(selector);
 
-				*/
-				//if(!this.raw)
-				//	this.raw = glosses;
+
+				//Checks if there is saved raw data.  If there is, it restores it (in case of on the fly configurations)
+				//Otherwise, if it doesn't exist, it saves the raw data before manipulating it.
+				if(this.raw[selector]){
+					for(var g = 0; g < this.raw[selector].length; g++)
+						glosses[g].innerHTML = this.raw[selector][g];
+				} else {
+					var rawArr = [];
+					for(var pos = glosses.length; pos--; rawArr.unshift(glosses[pos].innerHTML));
+					if(!this.raw[selector])
+						this.raw[selector] = rawArr;
+				}
 
 				//Go through every div marked with the default selector
 				for(var i = 0; i < glosses.length; i++){
@@ -51,7 +59,7 @@
 						wordlines =  equalizeArrayLength(lines.map(this.layout)),
 						wordzips = zipn(wordlines),
 						output = "";
-					console.log(wordlines);
+
 
 					for(var j = 0; j < wordzips.length; j++){
 						var formattedGloss = "<div class=\"gloss-segment\">";
@@ -61,12 +69,22 @@
 							else
 								formattedGloss += wordzips[j][k]+"<br/>";
 						}
+						
 						formattedGloss += "</div>";
 						output += formattedGloss;
 					}
-					console.log(output);
+
 					glosses[i].innerHTML = output;
-					glosses[i].className += " formatted-gloss";
+
+					//Don't duplicate on reconfiguration
+					if(glosses[i].className.indexOf("formatted-gloss") === -1)
+						glosses[i].className += " formatted-gloss";
+
+					//Add a clearfix after each gloss, since they might be interspersed within text
+					var cf = document.createElement("div");
+					cf.className = "clearfix";
+					glosses[i].appendChild(cf);
+
 				}
 			}
 		};
@@ -104,7 +122,9 @@
 	function setSmallCaps (string) {
 		return string.replace(/\*(\S+)\*/g, '<span class="morpheme">$1</span>');
 	}
-
+	function setFakeSmallCaps (string) {
+		return string.replace(/\*(\S+)\*/g, '<span class="morpheme-fake-caps">$1</span>');
+	}
 	/*
 		Find longest line length and equalize all to that length
 	*/
