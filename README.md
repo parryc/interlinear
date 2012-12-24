@@ -1,12 +1,21 @@
-# interlinear
+# Interlinear
 
 Word-aligned interlinear glosses for the web, with the help of JavaScript and CSS.
 
+## How to use
+
+In your header add ```<link rel="stylesheet" type="text/css" href="interlinear.css"/>``` and at the bottom of the page add ```<script type="text/javascript" src="interlinear.js"></script>```.  This is to make sure that the document has been fully loaded before automatically formatting the text. 
+
+If you want to call it explicitly, there is a variable ```gloss``` that controls everything (like jQuery). 
+
+* Calling the layout function: ```gloss.setGloss()```
+* Reconfiguring (calls ```setGloss()``` automatically) is done by passing in any options you want to change to the configure function ```gloss.configure({ ... options ... })```
+
 ## Options
 
-* ```defaultSelector: ".gloss"``` The default class for encapsulating divs
+* ```selector: ".gloss"``` The class selector for encapsulating divs
 * ```showFormattingErrors: false``` Show if there are any blanks in the alignment 
-* ```useSmallCaps: true``` Use small caps for morphemes.  This is done by ```*morpeme*```, e.g. ```*nom*```
+* ```useSmallCaps: true``` Use small caps for morphemes.  This is done by ```*morpeme name*```, e.g. ```*nom*``` (must be lowercase)
 * ```useFakeSmallCaps: false``` If your font has bad kerning for small caps, enable this.
 
 ##TODO

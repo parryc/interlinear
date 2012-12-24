@@ -5,7 +5,7 @@
 	
 	//default options
 	var options = {
-				defaultSelector: ".gloss",
+				selector: ".gloss",
 				showFormattingErrors: false,
 				useSmallCaps: true,
 				useFakeSmallCaps: false
@@ -37,7 +37,7 @@
 				this.setGloss();
 			},
 			setGloss: function(){
-				var selector = this.options.defaultSelector,
+				var selector = this.options.selector,
 					glosses = document.querySelectorAll(selector);
 
 
@@ -149,4 +149,5 @@
 
 	//export to window
 	root.gloss = gloss();
+	root.gloss.setGloss();
 })(this);
