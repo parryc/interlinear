@@ -18,12 +18,6 @@ If you want to call it explicitly, there is a variable ```gloss``` that controls
 * ```useSmallCaps: true``` Use small caps for morphemes.  This is done by ```*morpeme name*```, e.g. ```*nom*``` (must be lowercase)
 * ```useFakeSmallCaps: false``` If your font has bad kerning for small caps, enable this.
 
-##TODO
-
-* Somethings (e.g. querySelectorAll) may not be totally backwards compatible? 
-* Add support for tooltips (such as with bootstrap)
-* Add support for tagging languages
-
 ## From
 
 See [this Speechlike blog post](http://www.speechlike.org/2012/12/interlinear-glossing-with-javascript-and-css/).
