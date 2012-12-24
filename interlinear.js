@@ -5,19 +5,62 @@
 	
 	//default options
 	var options = {
+				prettyMergedColumns: true,
 				selector: ".gloss",
 				showFormattingErrors: false,
 				useSmallCaps: true,
 				useFakeSmallCaps: false
 			};
 		//raw = document.querySelectorAll(".gloss");
+
+	//Because goddammit IE.
+	if(!Array.prototype.indexOf) {
+		Array.prototype.indexOf = function(needle) {
+			for(var i = 0; i < this.length; i++) {
+				if(this[i] === needle) {
+					return i;
+				}
+			}
+			return -1;
+		};
+	}
+
 	function gloss(){
 		return {
 			options: options,
 			raw: {},
 			layout: function(line){
-				var preformatArray = line.split(/\s+(?!\/)/).filter(function (d) { return (d !== ""); });
+				var breaks = line.split(/\s+(?!\/)/).filter(function (d) { return (d !== ""); });
+				//My regex fu isn't good enough to split and preserve words in quotes so
+				//I'm just going to go through and merge words
+				
+				var lookingFor = "",
+					current = "",
+					preformatArray = [],
+					merging = false;
+				for (var i = 0; i < breaks.length; i++) {
+					var first = breaks[i].slice(0,1),
+						last = breaks[i].slice(breaks[i].length-1);
 
+					if(!merging){
+						if(first === "\"" || first === "'"){
+							lookingFor = first;
+							current += breaks[i];
+							merging = true;
+						} else
+							preformatArray.push(breaks[i]);
+					} else {
+						current += " "+breaks[i];
+						if(last === lookingFor){
+							merging = false;
+							preformatArray.push(current);
+							current = "";
+						}
+
+						
+					}
+
+				}
 				if(options.useSmallCaps){
 					if(options.useFakeSmallCaps)
 						preformatArray = preformatArray.map(setFakeSmallCaps);
@@ -62,12 +105,19 @@
 
 
 					for(var j = 0; j < wordzips.length; j++){
-						var formattedGloss = "<div class=\"gloss-segment\">";
+						var formattedGloss = "";
+						if(wordzips[j].indexOf("xx") > -1 && options.prettyMergedColumns)
+							formattedGloss = "<div class=\"gloss-segment gloss-merged\">";
+						else
+							formattedGloss = "<div class=\"gloss-segment\">";
+
 						for(var k = 0; k < wordzips[j].length; k++){
 							if(!wordzips[j][k] && options.showFormattingErrors)
 								formattedGloss += "<span class=\"gloss-error\">Error</span><br/>";
+							else if(wordzips[j][k] === "xx")
+								formattedGloss += "&nbsp;";
 							else
-								formattedGloss += wordzips[j][k]+"<br/>";
+								formattedGloss += "<span class=\"gloss-row"+k+"\">"+wordzips[j][k]+"</span><br/>";
 						}
 						
 						formattedGloss += "</div>";

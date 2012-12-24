@@ -25,9 +25,18 @@ If you change the class name, make sure to reconfigure ```gloss```.
 
 ## Options
 
+* ```prettyMergedColumns: true``` If you want columns to merge with styling (there is some default styling).  To mark a column to be merged include ```xx``` in the space that you want to be blank. For example 
+```html
+<div class="gloss">
+	aux chevaux<br/>
+	to.*art.pl* horse.*pl*<br/>
+	'to the horses' xx
+</div>
+```
+Note: You can also see that placing glosses in quotes will keep them to one morpheme
 * ```selector: ".gloss"``` The class selector for encapsulating divs
 * ```showFormattingErrors: false``` Show if there are any blanks in the alignment 
-* ```useSmallCaps: true``` Use small caps for morphemes.  This is done by ```*morpeme name*```, e.g. ```*nom*``` (must be lowercase)
+* ```useSmallCaps: true``` Use small caps for morphemes.  This is done by ```*morpeme name*```, e.g. ```*nom*```
 * ```useFakeSmallCaps: false``` If your font has bad kerning for small caps, enable this.
 
 ## From

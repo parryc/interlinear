@@ -6,16 +6,22 @@
 	clear: both;
 }
 
+.gloss-error {
+	color: red;
+}
+
+.gloss-merged {
+	margin-left: -25px;
+}
+
 .gloss-segment {
 	float: left;
 	margin-right: 10px;
 }
 
-.gloss-error {
-	color: red;
-}
 
 .morpheme {
+	text-transform: lowercase;
 	font-variant: small-caps;
 }
 
