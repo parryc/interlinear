@@ -44,3 +44,7 @@ Note: You can also see that placing glosses in quotes will keep them to one morp
 ## From
 
 See [this Speechlike blog post](http://www.speechlike.org/2012/12/interlinear-glossing-with-javascript-and-css/).
+
+## License
+
+[MIT](http://parryc.mit-license.org/)
