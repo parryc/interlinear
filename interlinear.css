@@ -10,6 +10,19 @@
 	color: red;
 }
 
+.gloss-full {
+	margin-left: 40px; /* This is the same width as the label plus segment margin */
+}
+
+.gloss-label {
+	width: 30px;
+}
+
+.gloss-label a {
+	text-decoration: none;
+}
+
+
 .gloss-merged {
 	margin-left: -25px;
 }
@@ -28,4 +41,15 @@
 .morpheme-fake-caps {
 	font-size: .7em;
 	text-transform: uppercase;
+}
+
+/*
+Row Classes
+*/
+.source {
+	font-weight: bold;
+}
+
+.translation {
+	font-style: italic;
 }

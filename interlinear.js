@@ -5,7 +5,9 @@
 	
 	//default options
 	var options = {
+				numberGlosses: true,
 				prettyMergedColumns: true,
+				rowClasses: {1: 'source', 2: 'morphemes', 3: 'translation'},
 				selector: ".gloss",
 				showFormattingErrors: false,
 				useSmallCaps: true,
@@ -74,8 +76,15 @@
 			},
 			configure: function(opts){
 				for(var prop in opts){
-					if(opts.hasOwnProperty(prop))
-						this.options[prop] = opts[prop];
+					if(opts.hasOwnProperty(prop)) {
+						//Don't overwrite default associations
+						if(prop === 'rowClasses') {
+							for(var row in opts[prop]){
+								this.options[prop][row] = opts[prop][row];
+							}
+						} else
+							this.options[prop] = opts[prop];
+					}
 				}
 				this.setGloss();
 			},
@@ -101,8 +110,12 @@
 					var lines = glosses[i].innerHTML.trim().split(/<br\/?>/),
 						wordlines =  equalizeArrayLength(lines.map(this.layout)),
 						wordzips = zipn(wordlines),
-						output = "";
+						output = "",
+						fullLength = "",
+						skipRow;
 
+					if(options.numberGlosses)
+						output = "<div class=\"gloss-segment gloss-label\"><a href=\"#gloss"+(i+1)+"\">("+(i+1)+")</a></div>"
 
 					for(var j = 0; j < wordzips.length; j++){
 						var formattedGloss = "";
@@ -112,19 +125,29 @@
 							formattedGloss = "<div class=\"gloss-segment\">";
 
 						for(var k = 0; k < wordzips[j].length; k++){
+							if(skipRow === k)
+								continue;
+
 							if(!wordzips[j][k] && options.showFormattingErrors)
 								formattedGloss += "<span class=\"gloss-error\">Error</span><br/>";
 							else if(wordzips[j][k] === "xx")
 								formattedGloss += "&nbsp;";
-							else
-								formattedGloss += "<span class=\"gloss-row"+k+"\">"+wordzips[j][k]+"</span><br/>";
+							else if(wordzips[j][k].charAt(0) === '!') {
+								fullLength = wordzips[j+1][k];
+								skipRow = k;
+							} else
+								formattedGloss += "<span class=\"gloss-row"+k+" "+options.rowClasses[k+1]+"\">"+wordzips[j][k]+"</span><br/>";
 						}
 						
 						formattedGloss += "</div>";
 						output += formattedGloss;
 					}
 
-					glosses[i].innerHTML = output;
+					if(fullLength){
+						fullLength = (new Array(lines.length)).join("<br/>")+"<span class=\"gloss-row gloss-full "+options.rowClasses[lines.length]+"\">"+fullLength+"</span>";
+					}
+
+					glosses[i].innerHTML = output+fullLength;
 
 					//Don't duplicate on reconfiguration
 					if(glosses[i].className.indexOf("formatted-gloss") === -1)

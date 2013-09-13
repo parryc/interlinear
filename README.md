@@ -25,6 +25,17 @@ If you change the class name, make sure to reconfigure ```gloss```.
 
 ## Options
 
+* Full width row: If you want a row to ignore all spacing (e.g. like a label for the gloss), include a ```! ``` in front of the text.
+
+```html
+<div class="gloss">
+	nanggayan guny-bi-yarluga?<br/>
+	who *2DU.A.3SG.P-FUT*-poke<br/>
+	! 'Who do you two want to spear?'
+</div>
+```
+
+* ```numberGlosses: true``` Labels all glosses with a number and link. You can reference the gloss with ```#glossNUMBER```.
 * ```prettyMergedColumns: true``` If you want columns to merge with styling (there is some default styling).  To mark a column to be merged include ```xx``` in the space that you want to be blank. For example 
 
 ```html
@@ -36,6 +47,7 @@ If you change the class name, make sure to reconfigure ```gloss```.
 ```
 Note: You can also see that placing glosses in quotes will keep them to one morpheme
 
+* ```rowClasses: {1: 'source', 2: 'morphemes', 3: 'translation'}``` These are default class names for rows 1-3.  There is some initial styling and they can be overwritten as needed.
 * ```selector: ".gloss"``` The class selector for encapsulating divs
 * ```showFormattingErrors: false``` Show if there are any blanks in the alignment 
 * ```useSmallCaps: true``` Use small caps for morphemes.  This is done by ```*morpeme name*```, e.g. ```*nom*```
@@ -43,7 +55,7 @@ Note: You can also see that placing glosses in quotes will keep them to one morp
 
 ## From
 
-See [this Speechlike blog post](http://www.speechlike.org/2012/12/interlinear-glossing-with-javascript-and-css/).
+See [this Speechlike blog post](http://www.speechlike.org/2012/12/interlinear-glossing-with-javascript-and-css/).  Additional ideas from the [Leipzig glossing rules](http://www.eva.mpg.de/lingua/resources/glossing-rules.php)
 
 ## License
 
