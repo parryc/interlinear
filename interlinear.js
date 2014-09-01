@@ -120,15 +120,9 @@
 
 				//Go through every div marked with the default selector
 				for(var i = 0; i < glosses.length; i++){
-					var lines = glosses[i].innerHTML.trim().split(/<br\/?>/);
-
-					//Synthetic languages generally don't align well (since there are so few spaces)
-					//If the option is set, make the second line a full length line.
-					// This is a bad way of doing it... heh
-					// if(options.syntheticLanguage)
-					// 	lines[1] = '! "'+lines+'"';
-
-					var	wordIdxlines =  equalizeArrayLength(lines.map(this.layout)),
+					var lines = glosses[i].innerHTML.trim().split(/<br\/?>/),
+						isSynthetic = (glosses[i].dataset.synthetic === "1" || options.syntheticLanguage),
+						wordIdxlines =  equalizeArrayLength(lines.map(this.layout)),
 						wordzips = zipn(wordIdxlines),
 						output = "",
 						fullLength = [],
@@ -162,7 +156,8 @@
 					for(var col = 0; col < wordzips.length; col++){
 						console.log(col);
 						var formattedGloss = "",
-							currentColumn = wordzips[col];
+							currentColumn = wordzips[col],
+							firstChar = "";
 
 
 
@@ -176,19 +171,28 @@
 							if(skipRow && skipRow.indexOf(wordIdx) > -1)
 								continue;
 
+							firstChar = currentColumn[wordIdx].charAt(0);
+
 							if(!currentColumn[wordIdx] && options.showFormattingErrors)
 								formattedGloss += "<span class=\"gloss-error\">Error</span><br/>";
 							else if(currentColumn[wordIdx] === "xx")
 								formattedGloss += "&nbsp;";
-							else if(currentColumn[wordIdx].charAt(0) === '!' ||
-									(options.syntheticLanguage && wordIdx === 1)) {
-								if(currentColumn[wordIdx].charAt(0) === '!')
+							else if(firstChar === '!' ||
+									(isSynthetic && wordIdx === 1)) {
+								if(firstChar === '!')
 									fullLength.push(currentColumn[wordIdx].substring(1).trim());
-								else
+								else if(isSynthetic && wordIdx === 1) {
+
+									temp = "";
+									for (var t = 0; t < wordzips.length; t++) {
+											temp += printWord(1, wordzips[t][1], options);
+										}
+									fullLength.push(temp);
+								} else
 									fullLength.push(currentColumn[wordIdx]);
 								skipRow.push(wordIdx);
 							} else {
-								formattedGloss += "<span class=\"gloss-row"+wordIdx+" "+options.rowClasses[wordIdx+1]+"\">"+currentColumn[wordIdx]+"</span>";
+								formattedGloss += printWord(wordIdx, currentColumn[wordIdx], options);
 								if(wordIdx !== currentColumn.length-1)
 									formattedGloss += "<br/>";
 							}
@@ -278,6 +282,10 @@
 		}
 
 		return arrays;
+	}
+
+	function printWord(idx, word, options) {
+		return "<span class=\"gloss-row"+idx+" "+options.rowClasses[idx+1]+"\">"+word+"</span>";
 	}
 
 

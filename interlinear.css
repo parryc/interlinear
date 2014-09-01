@@ -14,6 +14,10 @@
 	margin-left: 40px; /* This is the same width as the label plus segment margin */
 }
 
+.gloss-full > .gloss-row1{
+	margin-right: 15px;
+}
+
 .gloss-label {
 	width: 30px;
 }
