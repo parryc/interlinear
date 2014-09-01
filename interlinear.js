@@ -14,10 +14,6 @@
 				useSmallCaps: true,
 				useFakeSmallCaps: false
 			};
-		//hideQuotes - quotes are needed for the leipzig rules
-		//syntheticLanguage - auto makes second line a full line, since the wordIdx isn't going to have spaces
-			//could also add option to align based on hyphens. 
-
 
 	//Because goddammit IE.
 	if(!Array.prototype.indexOf) {
@@ -36,46 +32,28 @@
 			options: options,
 			raw: {},
 			layout: function(line){
-				//matches wordIdxs in double quotes or single quotes (ignoring single quotes that are used in contractions etc.)
-				//no support for single quotes that're part of wordIdxs but have a bounding space, e.g. the students' )
-				//
-				//it also matches full lines with a ! in front as one full match.
-				//
-				//if there's a double quote and then a single end quote, ignore the single end quote and keep going to 
-				// the double quote at the end.
+				/*
+					This regex matches in this priority: 
+						1. Words grouped by double quotes "
+						2. Words groupd by single quotes ' (this includes a word medial single quotes. so 'you're cute' would
+							match the entire string)
+						3. Single words
+
+						** If there is a ! in front of the line, it will match the whole line if the rest of the phrase
+							is surrounded by quotes of some sort. This is used for pulling out full lines. 
+
+					The regex:
+						(!\s)? -- include a ![space] at the front
+						("|'((?!\s)|^)) -- match a double quote, or a single quote that is proceeded by a space, or beg. of line
+						.+? -- any character, non-greedy
+						("|(?=').*?"|'((?=\s)|$)) -- double quote, a double quote even if there is a single quote in there, 
+														a single quote followed by a space, end of line
+						|[^\s]+  -- or characters that aren't spaces (e.g. a single word)
+
+				*/
+
 				var preformatArray = line.match(/(!\s)?("|'((?!\s)|^)).+?("|(?=').*?"|'((?=\s)|$))|[^\s]+/g);
-				console.log(preformatArray);
-				// var breaks = line.split(/\s+(?!\/)/).filter(function (d) { return (d !== ""); });
-				// //My regex fu isn't good enough to split and preserve wordIdxs in quotes so
-				// //I'm just going to go through and merge wordIdxs
 				
-				// var lookingFor = "",
-				// 	current = "",
-				// 	preformatArray = [],
-				// 	merging = false;
-				// for (var i = 0; i < breaks.length; i++) {
-				// 	var first = breaks[i].slice(0,1),
-				// 		last = breaks[i].slice(breaks[i].length-1);
-
-				// 	if(!merging){
-				// 		if(first === "\"" || first === "'"){
-				// 			lookingFor = first;
-				// 			current += breaks[i];
-				// 			merging = true;
-				// 		} else
-				// 			preformatArray.push(breaks[i]);
-				// 	} else {
-				// 		current += " "+breaks[i];
-				// 		if(last === lookingFor){
-				// 			merging = false;
-				// 			preformatArray.push(current);
-				// 			current = "";
-				// 		}
-
-						
-				// 	}
-
-				// }
 				if(options.useSmallCaps){
 					if(options.useFakeSmallCaps)
 						preformatArray = preformatArray.map(setFakeSmallCaps);
@@ -160,8 +138,6 @@
 							firstChar = "";
 
 
-
-
 						if(wordzips[col].indexOf("xx") > -1 && options.prettyMergedColumns)
 							formattedGloss = "<div class=\"gloss-segment gloss-merged\">";
 						else
@@ -182,7 +158,7 @@
 								if(firstChar === '!')
 									fullLength.push(currentColumn[wordIdx].substring(1).trim());
 								else if(isSynthetic && wordIdx === 1) {
-
+									//Merge all of the columns into one full length row
 									temp = "";
 									for (var t = 0; t < wordzips.length; t++) {
 											temp += printWord(1, wordzips[t][1], options);

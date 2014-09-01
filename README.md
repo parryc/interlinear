@@ -25,7 +25,7 @@ If you change the class name, make sure to reconfigure ```gloss```.
 
 ## Options
 
-* Full width row: If you want a row to ignore all spacing (e.g. like a label for the gloss), include a ```! ``` in front of the text.
+* Full width row: If you want a row to ignore all spacing (e.g. like a label for the gloss), include a ```! ``` in front of the text. Multiple translation rows can be added at the end (e.g. if you need translations in two languages).
 
 ```html
 <div class="gloss">
@@ -49,6 +49,17 @@ Note: You can also see that placing glosses in quotes will keep them to one morp
 
 * ```rowClasses: {1: 'source', 2: 'morphemes', 3: 'translation'}``` These are default class names for rows 1-3.  There is some initial styling and they can be overwritten as needed.
 * ```selector: ".gloss"``` The class selector for encapsulating divs
+* ```syntheticLanguage: false``` The nature of synthetic languages makes good looking column alignment rare. Flip this switch to ignore column splis for the gloss row. This applies to every gloss. For single glosses, add the data element ```data-synthetic = "1"```.
+
+```html
+<div class="gloss" data-synthetic="1">
+	ingin-nia-ritsi=guuq<br/>
+	sit-down try *2p-imp.quote*<br/>
+	! "I was told to say 'sit down' to you"<br/>
+	! "From Fortescue (1984)"
+</div>
+```
+
 * ```showFormattingErrors: false``` Show if there are any blanks in the alignment 
 * ```useSmallCaps: true``` Use small caps for morphemes.  This is done by ```*morpeme name*```, e.g. ```*nom*```
 * ```useFakeSmallCaps: false``` If your font has bad kerning for small caps, enable this.
