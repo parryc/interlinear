@@ -7,7 +7,7 @@
 	var options = {
 				numberGlosses: true,
 				prettyMergedColumns: true,
-				rowClasses: {1: 'source', 2: 'morphemes', 3: 'translation'},
+				rowClasses: {1: 'source', 2: 'morphemes', 3: 'translation', 4: 'translation'},
 				selector: ".gloss",
 				showFormattingErrors: false,
 				syntheticLanguage: false,
@@ -38,7 +38,12 @@
 			layout: function(line){
 				//matches wordIdxs in double quotes or single quotes (ignoring single quotes that are used in contractions etc.)
 				//no support for single quotes that're part of wordIdxs but have a bounding space, e.g. the students' )
-				var preformatArray = line.match(/("|'((?!\s)|^)).+?("|'((?=\s)|$))|[^\s]+/g);
+				//
+				//it also matches full lines with a ! in front as one full match.
+				//
+				//if there's a double quote and then a single end quote, ignore the single end quote and keep going to 
+				// the double quote at the end.
+				var preformatArray = line.match(/(!\s)?("|'((?!\s)|^)).+?("|(?=').*?"|'((?=\s)|$))|[^\s]+/g);
 				console.log(preformatArray);
 				// var breaks = line.split(/\s+(?!\/)/).filter(function (d) { return (d !== ""); });
 				// //My regex fu isn't good enough to split and preserve wordIdxs in quotes so
@@ -126,8 +131,9 @@
 					var	wordIdxlines =  equalizeArrayLength(lines.map(this.layout)),
 						wordzips = zipn(wordIdxlines),
 						output = "",
-						fullLength = "",
-						skipRow;
+						fullLength = [],
+						fullLengthOutput = "",
+						skipRow = [];
 
 					console.log(wordzips);
 
@@ -149,14 +155,15 @@
 						]
 					*/
 
+					//reset skipRow for current gloss
+					//skipRow is used to mark the row that is not split into columns
+					skipRow = [];
+
 					for(var col = 0; col < wordzips.length; col++){
 						console.log(col);
 						var formattedGloss = "",
 							currentColumn = wordzips[col];
 
-						//reset skipRow for current gloss
-						//skipRow is used to mark the row that is not split into columns
-						skipRow = undefined;
 
 
 
@@ -166,8 +173,7 @@
 							formattedGloss = "<div class=\"gloss-segment\">";
 
 						for(var wordIdx = 0; wordIdx < currentColumn.length; wordIdx++){
-							console.log(currentColumn[wordIdx].charAt(0));
-							if(skipRow === wordIdx)
+							if(skipRow && skipRow.indexOf(wordIdx) > -1)
 								continue;
 
 							if(!currentColumn[wordIdx] && options.showFormattingErrors)
@@ -175,12 +181,16 @@
 							else if(currentColumn[wordIdx] === "xx")
 								formattedGloss += "&nbsp;";
 							else if(currentColumn[wordIdx].charAt(0) === '!' ||
-									options.syntheticLanguage) {
-								fullLength = wordzips[col+1][wordIdx];
-								skipRow = wordIdx;
+									(options.syntheticLanguage && wordIdx === 1)) {
+								if(currentColumn[wordIdx].charAt(0) === '!')
+									fullLength.push(currentColumn[wordIdx].substring(1).trim());
+								else
+									fullLength.push(currentColumn[wordIdx]);
+								skipRow.push(wordIdx);
 							} else {
-								formattedGloss += "<span class=\"gloss-row"+wordIdx+" "+options.rowClasses[wordIdx+1]+"\">"+currentColumn[wordIdx]+"</span><br/>";
-								console.log('here ' + currentColumn[wordIdx]);
+								formattedGloss += "<span class=\"gloss-row"+wordIdx+" "+options.rowClasses[wordIdx+1]+"\">"+currentColumn[wordIdx]+"</span>";
+								if(wordIdx !== currentColumn.length-1)
+									formattedGloss += "<br/>";
 							}
 						}
 						
@@ -188,11 +198,17 @@
 						output += formattedGloss;
 					}
 
+
 					if(fullLength){
-						fullLength = (new Array(lines.length)).join("<br/>")+"<span class=\"gloss-row gloss-full "+options.rowClasses[lines.length]+"\">"+fullLength+"</span>";
+						//Number of BRs for the previous rows
+						var numBreaks = lines.length-fullLength.length+1;
+						fullLengthOutput = (new Array(numBreaks)).join("<br/>");
+						for (var row = 0; row < fullLength.length; row++) {
+							fullLengthOutput += "<div class=\"gloss-row gloss-full "+options.rowClasses[lines.length]+"\">"+fullLength[row]+"</div>";
+						}
 					}
 
-					glosses[i].innerHTML = output+fullLength;
+					glosses[i].innerHTML = output+fullLengthOutput;
 
 					//Don't duplicate on reconfiguration
 					if(glosses[i].className.indexOf("formatted-gloss") === -1)
