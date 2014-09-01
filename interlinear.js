@@ -13,7 +13,10 @@
 				useSmallCaps: true,
 				useFakeSmallCaps: false
 			};
-		//raw = document.querySelectorAll(".gloss");
+		//hideQuotes
+		//syntheticLanguage - auto makes second line a full line, since the word isn't going to have spaces
+			//could also add option to align based on hyphens. 
+
 
 	//Because goddammit IE.
 	if(!Array.prototype.indexOf) {
@@ -32,37 +35,41 @@
 			options: options,
 			raw: {},
 			layout: function(line){
-				var breaks = line.split(/\s+(?!\/)/).filter(function (d) { return (d !== ""); });
-				//My regex fu isn't good enough to split and preserve words in quotes so
-				//I'm just going to go through and merge words
+				//matches words in double quotes or single quotes (ignoring single quotes that are used in contractions etc.)
+				//no support for single quotes that're part of words but have a bounding space, e.g. the students' )
+				var preformatArray = line.match(/("|'((?!\s)|^)).+?("|'((?=\s)|$))|[^\s]+/g);
+				console.log(preformatArray);
+				// var breaks = line.split(/\s+(?!\/)/).filter(function (d) { return (d !== ""); });
+				// //My regex fu isn't good enough to split and preserve words in quotes so
+				// //I'm just going to go through and merge words
 				
-				var lookingFor = "",
-					current = "",
-					preformatArray = [],
-					merging = false;
-				for (var i = 0; i < breaks.length; i++) {
-					var first = breaks[i].slice(0,1),
-						last = breaks[i].slice(breaks[i].length-1);
+				// var lookingFor = "",
+				// 	current = "",
+				// 	preformatArray = [],
+				// 	merging = false;
+				// for (var i = 0; i < breaks.length; i++) {
+				// 	var first = breaks[i].slice(0,1),
+				// 		last = breaks[i].slice(breaks[i].length-1);
 
-					if(!merging){
-						if(first === "\"" || first === "'"){
-							lookingFor = first;
-							current += breaks[i];
-							merging = true;
-						} else
-							preformatArray.push(breaks[i]);
-					} else {
-						current += " "+breaks[i];
-						if(last === lookingFor){
-							merging = false;
-							preformatArray.push(current);
-							current = "";
-						}
+				// 	if(!merging){
+				// 		if(first === "\"" || first === "'"){
+				// 			lookingFor = first;
+				// 			current += breaks[i];
+				// 			merging = true;
+				// 		} else
+				// 			preformatArray.push(breaks[i]);
+				// 	} else {
+				// 		current += " "+breaks[i];
+				// 		if(last === lookingFor){
+				// 			merging = false;
+				// 			preformatArray.push(current);
+				// 			current = "";
+				// 		}
 
 						
-					}
+				// 	}
 
-				}
+				// }
 				if(options.useSmallCaps){
 					if(options.useFakeSmallCaps)
 						preformatArray = preformatArray.map(setFakeSmallCaps);
@@ -113,6 +120,8 @@
 						output = "",
 						fullLength = "",
 						skipRow;
+
+					console.log(wordzips);
 
 					if(options.numberGlosses)
 						output = "<div class=\"gloss-segment gloss-label\"><a href=\"#gloss"+(i+1)+"\">("+(i+1)+")</a></div>"
