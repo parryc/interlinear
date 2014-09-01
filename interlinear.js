@@ -10,11 +10,12 @@
 				rowClasses: {1: 'source', 2: 'morphemes', 3: 'translation'},
 				selector: ".gloss",
 				showFormattingErrors: false,
+				syntheticLanguage: false,
 				useSmallCaps: true,
 				useFakeSmallCaps: false
 			};
-		//hideQuotes
-		//syntheticLanguage - auto makes second line a full line, since the word isn't going to have spaces
+		//hideQuotes - quotes are needed for the leipzig rules
+		//syntheticLanguage - auto makes second line a full line, since the wordIdx isn't going to have spaces
 			//could also add option to align based on hyphens. 
 
 
@@ -35,13 +36,13 @@
 			options: options,
 			raw: {},
 			layout: function(line){
-				//matches words in double quotes or single quotes (ignoring single quotes that are used in contractions etc.)
-				//no support for single quotes that're part of words but have a bounding space, e.g. the students' )
+				//matches wordIdxs in double quotes or single quotes (ignoring single quotes that are used in contractions etc.)
+				//no support for single quotes that're part of wordIdxs but have a bounding space, e.g. the students' )
 				var preformatArray = line.match(/("|'((?!\s)|^)).+?("|'((?=\s)|$))|[^\s]+/g);
 				console.log(preformatArray);
 				// var breaks = line.split(/\s+(?!\/)/).filter(function (d) { return (d !== ""); });
-				// //My regex fu isn't good enough to split and preserve words in quotes so
-				// //I'm just going to go through and merge words
+				// //My regex fu isn't good enough to split and preserve wordIdxs in quotes so
+				// //I'm just going to go through and merge wordIdxs
 				
 				// var lookingFor = "",
 				// 	current = "",
@@ -114,9 +115,16 @@
 
 				//Go through every div marked with the default selector
 				for(var i = 0; i < glosses.length; i++){
-					var lines = glosses[i].innerHTML.trim().split(/<br\/?>/),
-						wordlines =  equalizeArrayLength(lines.map(this.layout)),
-						wordzips = zipn(wordlines),
+					var lines = glosses[i].innerHTML.trim().split(/<br\/?>/);
+
+					//Synthetic languages generally don't align well (since there are so few spaces)
+					//If the option is set, make the second line a full length line.
+					// This is a bad way of doing it... heh
+					// if(options.syntheticLanguage)
+					// 	lines[1] = '! "'+lines+'"';
+
+					var	wordIdxlines =  equalizeArrayLength(lines.map(this.layout)),
+						wordzips = zipn(wordIdxlines),
 						output = "",
 						fullLength = "",
 						skipRow;
@@ -124,28 +132,56 @@
 					console.log(wordzips);
 
 					if(options.numberGlosses)
-						output = "<div class=\"gloss-segment gloss-label\"><a href=\"#gloss"+(i+1)+"\">("+(i+1)+")</a></div>"
+						output = "<div class=\"gloss-segment gloss-label\"><a href=\"#gloss"+(i+1)+"\">("+(i+1)+")</a></div>";
 
-					for(var j = 0; j < wordzips.length; j++){
-						var formattedGloss = "";
-						if(wordzips[j].indexOf("xx") > -1 && options.prettyMergedColumns)
+					/*
+						Wordzips: 
+
+						My s Marko
+						1PL COM Marko
+						We with Marko
+
+						Becomes an array of the columns
+						[ 
+							[My, 1PL, We],
+							[s, COM, with],
+							[Marko, Marko, Marko]
+						]
+					*/
+
+					for(var col = 0; col < wordzips.length; col++){
+						console.log(col);
+						var formattedGloss = "",
+							currentColumn = wordzips[col];
+
+						//reset skipRow for current gloss
+						//skipRow is used to mark the row that is not split into columns
+						skipRow = undefined;
+
+
+
+						if(wordzips[col].indexOf("xx") > -1 && options.prettyMergedColumns)
 							formattedGloss = "<div class=\"gloss-segment gloss-merged\">";
 						else
 							formattedGloss = "<div class=\"gloss-segment\">";
 
-						for(var k = 0; k < wordzips[j].length; k++){
-							if(skipRow === k)
+						for(var wordIdx = 0; wordIdx < currentColumn.length; wordIdx++){
+							console.log(currentColumn[wordIdx].charAt(0));
+							if(skipRow === wordIdx)
 								continue;
 
-							if(!wordzips[j][k] && options.showFormattingErrors)
+							if(!currentColumn[wordIdx] && options.showFormattingErrors)
 								formattedGloss += "<span class=\"gloss-error\">Error</span><br/>";
-							else if(wordzips[j][k] === "xx")
+							else if(currentColumn[wordIdx] === "xx")
 								formattedGloss += "&nbsp;";
-							else if(wordzips[j][k].charAt(0) === '!') {
-								fullLength = wordzips[j+1][k];
-								skipRow = k;
-							} else
-								formattedGloss += "<span class=\"gloss-row"+k+" "+options.rowClasses[k+1]+"\">"+wordzips[j][k]+"</span><br/>";
+							else if(currentColumn[wordIdx].charAt(0) === '!' ||
+									options.syntheticLanguage) {
+								fullLength = wordzips[col+1][wordIdx];
+								skipRow = wordIdx;
+							} else {
+								formattedGloss += "<span class=\"gloss-row"+wordIdx+" "+options.rowClasses[wordIdx+1]+"\">"+currentColumn[wordIdx]+"</span><br/>";
+								console.log('here ' + currentColumn[wordIdx]);
+							}
 						}
 						
 						formattedGloss += "</div>";
