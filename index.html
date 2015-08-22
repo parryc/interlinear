@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Interlinear by parryc</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Interlinear</h1>
+        <p>Interlinear glossing with JS &amp; CSS</p>
+
+        <p class="view"><a href="https://github.com/parryc/interlinear">View the Project on GitHub <small>parryc/interlinear</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/parryc/interlinear/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/parryc/interlinear/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/parryc/interlinear">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="interlinear" class="anchor" href="#interlinear" aria-hidden="true"><span class="octicon octicon-link"></span></a>Interlinear</h1>
+
+<p>Word-aligned interlinear glosses for the web, with the help of JavaScript and CSS.</p>
+
+<h2>
+<a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use</h2>
+
+<p>In your header add <code>&lt;link rel="stylesheet" type="text/css" href="interlinear.css"/&gt;</code> and at the bottom of the page add <code>&lt;script type="text/javascript" src="interlinear.js"&gt;&lt;/script&gt;</code>.  This is to make sure that the document has been fully loaded before automatically formatting the text. </p>
+
+<p>If you want to call it explicitly, there is a variable <code>gloss</code> that controls everything (like jQuery). </p>
+
+<ul>
+<li>Calling the layout function: <code>gloss.setGloss()</code>
+</li>
+<li>Reconfiguring (calls <code>setGloss()</code> automatically) is done by passing in any options you want to change to the configure function <code>gloss.configure({ ... options ... })</code>
+</li>
+</ul>
+
+<p>Within the body of your webpage it's pretty simple. Within the gloss div, just make sure each line is delineated by a <code>&lt;br/&gt;</code> tag.</p>
+
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>gloss<span class="pl-pds">"</span></span>&gt;
+    ཟིང་འཁྲུགས་ ལང་མདོག་ ཁ་པོ་ རེད་&lt;<span class="pl-ent">br</span>/&gt;
+    zing-'khrugs lang-mdog kha-po red&lt;<span class="pl-ent">br</span>/&gt;
+    unrest arise-*nom* likely-*nom* be
+&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
+
+<p>If you change the class name, make sure to reconfigure <code>gloss</code>. </p>
+
+<h2>
+<a id="options" class="anchor" href="#options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Options</h2>
+
+<ul>
+<li>Full width row: If you want a row to ignore all spacing (e.g. like a label for the gloss), include a <code>!</code> in front of the text. Multiple translation rows can be added at the end (e.g. if you need translations in two languages).</li>
+</ul>
+
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>gloss<span class="pl-pds">"</span></span>&gt;
+    nanggayan guny-bi-yarluga?&lt;<span class="pl-ent">br</span>/&gt;
+    who *2DU.A.3SG.P-FUT*-poke&lt;<span class="pl-ent">br</span>/&gt;
+    ! 'Who do you two want to spear?'
+&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
+
+<ul>
+<li>
+<code>numberGlosses: true</code> Labels all glosses with a number and link. You can reference the gloss with <code>#glossNUMBER</code>.</li>
+<li>
+<code>prettyMergedColumns: true</code> If you want columns to merge with styling (there is some default styling).  To mark a column to be merged include <code>xx</code> in the space that you want to be blank. For example </li>
+</ul>
+
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>gloss<span class="pl-pds">"</span></span>&gt;
+    aux chevaux&lt;<span class="pl-ent">br</span>/&gt;
+    to.*art.pl* horse.*pl*&lt;<span class="pl-ent">br</span>/&gt;
+    'to the horses' xx
+&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
+
+<p>Note: You can also see that placing glosses in quotes will keep them to one morpheme</p>
+
+<ul>
+<li>
+<code>rowClasses: {1: 'source', 2: 'morphemes', 3: 'translation'}</code> These are default class names for rows 1-3.  There is some initial styling and they can be overwritten as needed.</li>
+<li>
+<code>selector: ".gloss"</code> The class selector for encapsulating divs</li>
+<li>
+<code>syntheticLanguage: false</code> The nature of synthetic languages makes good looking column alignment rare. Flip this switch to ignore column splis for the gloss row. This applies to every gloss. For single glosses, add the data element <code>data-synthetic = "1"</code>.</li>
+</ul>
+
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>gloss<span class="pl-pds">"</span></span> <span class="pl-e">data-synthetic</span>=<span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span>&gt;
+    ingin-nia-ritsi=guuq&lt;<span class="pl-ent">br</span>/&gt;
+    sit-down try *2p-imp.quote*&lt;<span class="pl-ent">br</span>/&gt;
+    ! "I was told to say 'sit down' to you"&lt;<span class="pl-ent">br</span>/&gt;
+    ! "From Fortescue (1984)"
+&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
+
+<ul>
+<li>
+<code>showFormattingErrors: false</code> Show if there are any blanks in the alignment </li>
+<li>
+<code>useSmallCaps: true</code> Use small caps for morphemes.  This is done by <code>*morpeme name*</code>, e.g. <code>*nom*</code>
+</li>
+<li>
+<code>useFakeSmallCaps: false</code> If your font has bad kerning for small caps, enable this.</li>
+</ul>
+
+<h2>
+<a id="from" class="anchor" href="#from" aria-hidden="true"><span class="octicon octicon-link"></span></a>From</h2>
+
+<p>See <a href="http://www.speechlike.org/2012/12/interlinear-glossing-with-javascript-and-css/">this Speechlike blog post</a>.  Additional ideas from the <a href="http://www.eva.mpg.de/lingua/resources/glossing-rules.php">Leipzig glossing rules</a></p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p><a href="http://parryc.mit-license.org/">MIT</a></p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/parryc">parryc</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
