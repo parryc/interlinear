@@ -253,10 +253,10 @@
 		return string.replace(/\//g, "");
 	}
 	function setSmallCaps (string) {
-		return string.replace(/\*(\S+)\*/g, '<span class="morpheme">$1</span>');
+		return string.replace(/\*(\S+?)\*/g, '<span class="morpheme">$1</span>');
 	}
 	function setFakeSmallCaps (string) {
-		return string.replace(/\*(\S+)\*/g, '<span class="morpheme-fake-caps">$1</span>');
+		return string.replace(/\*(\S+?)\*/g, '<span class="morpheme-fake-caps">$1</span>');
 	}
 	/*
 		Find longest line length and equalize all to that length

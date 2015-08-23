@@ -48,6 +48,9 @@
 .morpheme {
 	text-transform: lowercase;
 	font-variant: small-caps;
+	-moz-font-feature-settings: "lnum";
+  -webkit-font-feature-settings: "lnum";
+  font-feature-settings: "lnum";
 }
 
 .morpheme-fake-caps {

@@ -1,0 +1,435 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <title>Interlinear Demo</title>
+  <link rel="stylesheet" type="text/css" href="interlinear.css"/>
+  <style>
+  body {
+    font-family: Helvetica;
+  }
+
+  .morphemes {
+    font-size: .8em;
+  }
+  </style>
+</head>
+<body>
+<h1><a href="http://www.eva.mpg.de/lingua/resources/glossing-rules.php">The Leipzig Glossing Rules</a></h1>
+<h2>Styled with <a href="http://parryc.github.io/interlinear">interlinear.js</a></h2>
+The Leipzig Glossing Rules have been developed jointly by the Department of
+Linguistics of the Max Planck Institute for Evolutionary Anthropology
+(Bernard Comrie, Martin Haspelmath) and by the Department of Linguistics
+of the University of Leipzig (Balthasar Bickel). They consist of ten rules for the
+"syntax" and "semantics" of interlinear glosses, and an appendix with a
+proposed "lexicon" of abbreviated category labels. The rules cover a large part
+of linguists' needs in glossing texts, but most authors will feel the need to add
+(or modify) certain conventions (especially category labels). Still, it will be
+useful to have a standard set of conventions that linguists can refer to, and the
+Leipzig Rules are proposed as such to the community of linguists. The Rules
+are intended to reflect common usage, and only very few (mostly optional)
+innovations are proposed.
+<br/>
+We intend to update the Leipzig Glossing Rules occasionally, so feedback is
+highly welcome.
+<br/><br/>
+Important references:<br/>
+Lehmann, Christian. 1982. "Directions for interlinear morphemic translations".
+<em>Folia Linguistica</em> 16: 199-224.<br/>
+Croft, William. 2003. <em>Typology and universals.</em> 2nd ed. Cambridge: Cambridge
+University Press, pp. xix-xxv.<br/>
+
+<h2>The rules</h2>
+<strong>(revised version of February 2008)</strong>
+<h3>Preamble</h3>
+
+Interlinear morpheme-by-morpheme glosses give information about the
+meanings and grammatical properties of individual words and parts of
+words. Linguists by and large conform to certain notational conventions in
+glossing, and the main purpose of this document is to make the most widely
+used conventions explicit.<br/>
+Depending on the author's purposes and the readers' assumed background
+knowledge, different degrees of detail will be chosen. The current rules
+therefore allow some flexibility in various respects, and sometimes alternative
+options are mentioned.<br/>
+The main purpose that is assumed here is the presentation of an example in a
+research paper or book. When an entire corpus is tagged, somewhat different
+considerations may apply (e.g. one may want to add information about larger
+units such as words or phrases; the rules here only allow for information
+about morphemes).<br/><br/>
+
+It should also be noted that there are often multiple ways of analyzing the
+morphological patterns of a language. The glossing conventions do not help
+linguists in deciding between them, but merely provide standard ways of
+abbreviating possible descriptions. Moreover, glossing is rarely a complete
+morphological description, and it should be kept in mind that its purpose is
+not to state an analysis, but to give some further possibly relevant information
+on the structure of a text or an example, beyond the idiomatic translation.<br/><br/>
+
+A remark on the treatment of glosses in data cited from other sources: Glosses
+are part of the analysis, not part of the data. When citing an example from a
+published source, the gloss may be changed by the author if they prefer
+different terminology, a different style or a different analysis.
+
+<h3>Rule 1: Word-by-word alignment</h3>
+
+Interlinear glosses are left-aligned vertically, word by word, with the example. E.g.
+
+<div class="gloss">
+Indonesian (Sneddon 1996:237)<br/>
+Mereka di Jakarta sekarang.<br/>
+They in Jakarta now<br/>
+! 'They are in Jakarta now.'
+</div>
+<br/>
+
+<h3>Rule 2: Morpheme-by-morpheme correspondence</h3>
+
+Segmentable morphemes are separated by hyphens, both in the example and in the
+gloss. There must be exactly the same number of hyphens in the example and in the
+gloss. E.g.
+
+<div class="gloss">
+Lezgian (Haspelmath 1993:207)<br/>
+Gila abur-u-n ferma hamišaluǧ güǧüna amuq’-da-č.<br/>
+now they-*OBL*-*GEN* farm forever behind stay-*FUT*-*NEG*<br/>
+! 'Now their farm will not stay behind forever.'
+</div>
+<br/>
+Since hyphens and vertical alignment make the text look unusual, authors may
+want to add another line at the beginning, containing the unmodified text, or resort
+to the option described in Rule 4 (and especially 4C).<br/>
+Clitic boundaries are marked by an equals sign, both in the object language and
+in the gloss.
+<br/><br/>
+<div class="gloss" data-synthetic="1">
+West Greenlandic (Fortescue 1984:127)<br/>
+palasi=lu niuirtur=lu<br/>
+priest=and shopkeeper=and<br/>
+! 'both the priest and the shopkeeper'
+</div>
+<br/>
+
+Epenthetic segments occurring at a morpheme boundary should be assigned to
+either the preceding or the following morpheme. Which morpheme is to be chosen
+may be determined by various principles that are not easy to generalize over, so no
+rule will be provided for this.
+
+<h3>Rule 2A. (Optional)</h3>
+If morphologically bound elements constitute distinct prosodic or phonological
+words, a hyphen and a single space may be used together in the object language (but
+not in the gloss).
+<div class="gloss">
+Hakha Lai<br/>
+a-nii&nbsp;-láay<br/>
+*3SG*-laugh-*FUT*<br/>
+! 's/he will laugh'
+</div>
+
+<h3>Rule 3: Grammatical category labels</h3>
+
+Grammatical morphemes are generally rendered by abbreviated grammatical
+category labels, printed in upper case letters (usually small capitals). A list of
+standard abbreviations (which are widely known among linguists) is given at the
+end of this document.<br/>
+Deviations from these standard abbreviations may of course be necessary in
+particular cases, e.g. if a category is highly frequent in a language, so that a shorter
+abbreviation is more convenient, e.g. CPL (instead of COMPL) for "completive", PF
+(instead of PRF) for "perfect", etc. If a category is very rare, it may be simplest not to
+abbreviate its label at all.<br/>
+In many cases, either a category label or a word from the metalanguage is
+acceptable. Thus, both of the two glosses of (5) may be chosen, depending on the
+purpose of the gloss.<br/>
+<br/>
+<em>interlinear.js</em> note: Since lines 3 and 4 are either or but not both, there is currently no support for displaying both at once with the same class.
+<br/><br/>
+<div class="gloss">
+Russian<br/>
+My s Marko poexa-l-i avtobus-om v Peredelkino. <br/>
+*1PL* *COM* Marko go-*PST*-*PL* bus-*INS* *ALL* Peredelkino<br/>
+we with Marko go-*PST-PL* bus-by to Peredelkino<br/>
+! 'Marko and I went to Perdelkino by bus.'
+</div>
+
+<h3>Rule 4: One-to-many correspondences</h3>
+
+When a single object-language element is rendered by several metalanguage
+elements (words or abbreviations), these are separated by periods. E.g.
+<div class="gloss">
+Turkish<br/>
+çık-mak<br/>
+come.out-*INF*<br/>
+! 'to come out'
+</div>
+<br/>
+<div class="gloss">
+Latin<br/>
+insul-arum<br/>
+island-*GEN.PL*<br/>
+! 'of the islands'
+</div>
+<br/>
+<div class="gloss">
+French<br/>
+aux chevaux<br/>
+to.*ART.PL* horse.*PL*<br/>
+! 'to the horses'
+</div>
+<br/>
+<div class="gloss">
+German<br/>
+unser-n Väter-n<br/>
+our-*DAT.PL* father.*PL-DAT.PL*<br/>
+! 'to our fathers'
+</div>
+<br/>
+<div class="gloss">
+Hittite (Lehmann 1982:211)<br/>
+n=an apedani mehuni essandu.<br/>
+*CONN*=him that.*DAT.SG* time.*DAT.SG* eat.they.shall<br/>
+! 'They shall celebrate him on that date. (CONN = connective)'
+</div>
+<br/>
+<div class="gloss">
+Jaminjung (Schultze-Berndt 2000:92)<br/>
+nanggayan guny-bi-yarluga?<br/>
+who *2DU.A.3SG.P-FUT*-poke<br/>
+! 'Who do you two want to spear?'
+</div>
+<br/>
+The ordering of the two metalanguage elements may be determined by various
+principles that are not easy to generalize over, so no rule will be provided for this.
+There are various reasons for a one-to-many correspondence between objectlanguage
+elements and gloss elements. These are conflated by the uniform use of
+the period. If one wants to distinguish between them, one may follow Rules 4A-E.
+
+<h3>Rule 4A. (Optional)</h3>
+If an object-language element is neither formally nor semantically segmentable and
+only the metalanguage happens to lack a single-word equivalent, the underscore
+may be used instead of the period.
+
+<div class="gloss">
+Turkish (cf. 6)<br/>
+çık-mak<br/>
+come_out-*INF*<br/>
+! 'to come out'
+</div>
+
+<h3>Rule 4B. (Optional)</h3>
+If an object-language element is formally unsegmentable but has two or more
+clearly distinguishable meanings or grammatical properties, the semi-colon may be
+used. E.g.
+
+<div class="gloss">
+Latin (cf. 7)<br/>
+insul-arum<br/>
+island-*GEN;PL*<br/>
+! 'of the islands'
+</div>
+<br/>
+<div class="gloss">
+French<br/>
+aux chevaux<br/>
+to;*ART*;*PL* horse;*PL*<br/>
+! 'to the horses'
+</div>
+
+<h3>Rule 4C. (Optional)</h3>
+If an object-language element is formally and semantically segmentable, but the
+author does not want to show the formal segmentation (because it is irrelevant
+and/or to keep the text intact), the colon may be used. E.g.
+
+<div class="gloss">
+Hittite (Lehmann 1982:211) (cf. 10)<br/>
+n=an apedani mehuni essandu.<br/>
+*CONN*=him that:*DAT*;*SG* time:*DAT*;*SG* eat:they:shall<br/>
+! 'They shall celebrate him on that date.'
+</div>
+
+<h3>Rule 4D. (Optional)</h3>
+If a grammatical property in the object-language is signaled by a
+morphophonological change (ablaut, mutation, tone alternation, etc.), the backslash
+is used to separate the category label and the rest of the gloss.
+<div class="gloss">
+German (cf. 9)<br/>
+unser-n Väter-n<br/>
+our-*DAT.PL* father\*PL-DAT.PL*<br/>
+! 'to our fathers (cf. singular Vater)'
+</div>
+<br/>
+<div class="gloss">
+Irish<br/>
+bhris-is<br/>
+*PST*\break-*2SG*<br/>
+! 'you broke (cf. nonpast bris-)'
+</div>
+<br/>
+<div class="gloss">
+Kinyarwanda<br/>
+mú-kòrà<br/>
+SBJV\1PL-work<br/>
+! 'that we work (cf. indicative mù-kòrà)'
+</div>
+
+<h3>Rule 4E. (Optional)</h3>
+If a language has person-number affixes that express the agent-like and the patientlike
+argument of a transitive verb simultaneously, the symbol ">" may be used in
+the gloss to indicate that the first is the agent-like argument and the second is the
+patient-like argument.
+<div class="gloss">
+Jaminjung (Schultze-Berndt 2000:92) (cf. 11)<br/>
+nanggayan guny-bi-yarluga?<br/>
+who *2DU>3SG-FUT*-poke<br/>
+! 'Who do you two want to spear?'
+</div>
+
+<h3>Rule 5: Person and number labels</h3>
+
+Person and number are not separated by a period when they cooccur in this order.
+E.g.
+<div class="gloss">
+Italian<br/>
+and-iamo xx<br/>
+go-*PRS.1PL*<br/>
+! 'we go' <br/>
+! '(not: go-*PRS.1.PL*)'
+</div>
+<h3>Rule 5A. (Optional)</h3>
+Number and gender markers are very frequent in some languages, especially when
+combined with person. Several authors therefore use non-capitalized shortened
+abbreviations without a period. If this option is adopted, then the second gloss is
+used in (21).
+<div class="gloss">
+Belhare<br/>
+ne-e a-khim-chi n-yuNNa<br/>
+*DEM-LOC* *1SG.POSS*-house-*PL* *3NSG*-be.*NPST*<br/>
+*DEM-LOC* 1s*POSS*-house-PL 3ns-be.*NPST*<br/>
+! 'Here are my houses.'
+</div>
+
+<h3>Rule 6: Non-overt elements</h3>
+
+If the morpheme-by-morpheme gloss contains an element that does not correspond
+to an overt element in the example, it can be enclosed in square brackets. An
+obvious alternative is to include an overt "Ø" in the object-language text, which is
+separated by a hyphen like an overt element.
+<div class="gloss">
+Latin<br/>
+puer or: puer-Ø<br/>
+boy[*NOM.SG*] xx boy-*NOM.SG*<br/>
+'boy' xx 'boy’
+</div>
+
+<h3>Rule 7: Inherent categories</h3>
+
+Inherent, non-overt categories such as gender may be indicated in the gloss, but a
+special boundary symbol, the round parenthesis, is used. E.g.
+<div class="gloss">
+Hunzib (van den Berg 1995:46)<br/>
+oz#-di-g xõxe m-uq'e-r<br/>
+boy-*OBL-AD* tree(G4) *G4*-bend-*PRET*<br/>
+! 'Because of the boy the tree bent.' <br/>
+! '(*G4* = 4th gender, *AD* = adessive, *PRET* = preterite)'
+</div>
+
+<h3>Rule 8: Bipartite elements</h3>
+
+Grammatical or lexical elements that consist of two parts which are treated as
+distinct morphological entities (e.g. bipartite stems such as Lakhota na-xʔu̧ 'hear')
+may be treated in two different ways:
+(i) The gloss may simply be repeated:
+<br/><br/>
+<div class="gloss">
+Lakhota<br/>
+na-wíčha-wa-xʔu̧<br/>
+hear-*3PL.UND-1SG.ACT*-hear<br/>
+! 'I hear them (*UND* = undergoer, *ACT* = actor)' helllo hi
+</div>
+<br/>
+(ii) One of the two parts may be represented by a special label such as STEM:
+<br/><br/>
+<div class="gloss">
+Lakhota<br/>
+na-wíčha-wa-xʔu̧<br/>
+hear-*3PL.UND-1SG.ACT*- *STEM*<br/>
+! 'I hear them'
+</div>
+<br/>
+Circumfixes are "bipartite affixes" and can be treated in the same way, e.g.
+<br/><br/>
+<div class="gloss">
+German<br/>
+ge-seh-en or: ge-seh-en<br/>
+*PTCP*-see-*PTCP* xx *PTCP*-see-*CIRC*<br/>
+'seen' xx 'seen'
+</div>
+
+<h3>Rule 9: Infixes</h3>
+
+Infixes are enclosed by angle brackets, and so is the object-language counterpart in
+the gloss.
+<br/><br/>
+<div class="gloss">
+Tagalog<br/>
+b&lt;um&gt;ili (stem: bili)<br/>
+&lt;*ACTFOC*&gt;buy<br/>
+! 'buy'
+</div>
+<br/>
+<div class="gloss">
+Latin<br/>
+reli&lt;n&gt;qu-ere (stem: reliqu-)<br/>
+leave&lt;*PRS*&gt;-*INF*<br/>
+'to leave'
+</div>
+<br/>
+
+Infixes are generally easily identifiable as left-peripheral (as in 27) or as right-peripheral
+(as in 28), and this determines the position of the gloss corresponding to
+the infix with respect to the gloss of the stem. If the infix is not clearly peripheral,
+some other basis for linearizing the gloss has to be found.
+
+<h3>Rule 10: Reduplication</h3>
+
+Reduplication is treated similarly to affixation, but with a tilde (instead of an
+ordinary hyphen) connecting the copied element to the stem.
+<div class="gloss">
+Hebrew<br/>
+yerak~rak-im<br/>
+green~*ATT-M.PL*<br/>
+! 'greenish ones (*ATT* = attenuative)'
+</div>
+<br/>
+<div class="gloss">
+Tagalog<br/>
+bi~bili<br/>
+IPFV~buy<br/>
+! 'is buying'
+</div>
+<br/>
+<div class="gloss">
+Tagalog<br/>
+b&lt;um&gt;i~bili<br/>
+&lt;*ACTFOC*&gt;*IPFV*~buy<br/>
+! 'is buying (*ACTFOC* = Actor focus)'
+</div>
+
+<h3>See PDF for appendixes</h3>
+
+<h3>References</h3>
+Fortescue, Michael. 1984. <em>West Greenlandic.</em> (Croom Helm descriptive grammars)
+London: Croom Helm.<br/>
+Haspelmath, Martin. 1993. <em>A grammar of Lezgian.</em> (Mouton Grammar Library, 9).
+Berlin - New York: Mouton de Gruyter.<br/>
+Lehmann, Christian. 1982. <em>"Directions for interlinear morphemic translations".</em> Folia
+Linguistica 16: 199-224.<br/>
+Schultze-Berndt, Eva. 2000. <em>Simple and complex verbs in Jaminjung: A study of event
+categorization in an Australian language.</em> Katholieke Universiteit Nijmegen Ph.D.
+Dissertation.<br/>
+Sneddon, James Neil. 1996. <em>Indonesian: A comprehensive grammar.</em> London: Routledge.<br/>
+van den Berg, Helma. 1995. <em>A Grammar of Hunzib.</em> (Lincom Studies in Caucasian
+Linguistics, 1.) München: Lincom Europa.
+</body>
+
+<script type="text/javascript" src="interlinear.js"></script>
+</html>

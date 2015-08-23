@@ -68,6 +68,15 @@ Note: You can also see that placing glosses in quotes will keep them to one morp
 
 See [this Speechlike blog post](http://www.speechlike.org/2012/12/interlinear-glossing-with-javascript-and-css/).  Additional ideas from the [Leipzig glossing rules](http://www.eva.mpg.de/lingua/resources/glossing-rules.php)
 
+## TODO
+
+* Support for (cf. xyz) in translation and title lines
+* Support for singular line class reassignment (see Leipzing #5)
+* Sub-numbering, ex. 5a, 5b
+* Remove requirement for 's in non-breaking lines
+* Support for infixes (replace </> with html codes)
+* Better looking CSS for numbers next to small-caps
+
 ## License
 
 [MIT](http://parryc.mit-license.org/)
