@@ -5,6 +5,7 @@
 	
 	//default options
 	var options = {
+				citationClass: 'citation',
 				numberGlosses: true,
 				prettyMergedColumns: true,
 				rowClasses: {1: 'source', 2: 'morphemes', 3: 'translation', 4: 'translation'},
@@ -60,8 +61,6 @@
 					else
 						preformatArray = preformatArray.map(setSmallCaps);
 				}
-					
-
 
 				return preformatArray;
 			},
@@ -98,19 +97,34 @@
 
 				//Go through every div marked with the default selector
 				for(var i = 0; i < glosses.length; i++){
-					var lines = glosses[i].innerHTML.trim().split(/<br\/?>/),
-						isSynthetic = (glosses[i].dataset.synthetic === "1" || options.syntheticLanguage),
-						wordIdxlines =  equalizeArrayLength(lines.map(this.layout)),
-						wordzips = zipn(wordIdxlines),
-						output = "",
-						fullLength = [],
-						fullLengthOutput = "",
-						skipRow = [];
+					var lines            = glosses[i].innerHTML.trim().split(/<br\/?>/)
+						 ,hasTitle         = glosses[i].dataset.title !== "0"
+						 ,isSynthetic      = (glosses[i].dataset.synthetic === "1" || options.syntheticLanguage)
+						 ,output           = ""
+						 ,fullLength       = []
+						 ,fullLengthOutput = ""
+						 ,skipRow          = []
+						 ,wordIdxlines
+						 ,wordzips
+						 ;
+
+					if(hasTitle) {
+						title = "<div class=\"gloss-row gloss-full "+options.citationClass+"\">"+lines[0]+"</div>";
+						lines = lines.slice(1)
+					} else {
+						title = "";
+					}
+
+					wordIdxlines =  equalizeArrayLength(lines.map(this.layout));
+					wordzips = zipn(wordIdxlines);
 
 					console.log(wordzips);
 
-					if(options.numberGlosses)
+					if(options.numberGlosses) {
 						output = "<div class=\"gloss-segment gloss-label\"><a href=\"#gloss"+(i+1)+"\">("+(i+1)+")</a></div>";
+					}
+					
+					output += "<title>";
 
 					/*
 						Wordzips: 
@@ -153,8 +167,7 @@
 								formattedGloss += "<span class=\"gloss-error\">Error</span><br/>";
 							else if(currentColumn[wordIdx] === "xx")
 								formattedGloss += "&nbsp;";
-							else if(firstChar === '!' ||
-									(isSynthetic && wordIdx === 1)) {
+							else if(firstChar === '!' || (isSynthetic && wordIdx === 1)) {
 								if(firstChar === '!')
 									fullLength.push(currentColumn[wordIdx].substring(1).trim());
 								else if(isSynthetic && wordIdx === 1) {
@@ -181,13 +194,19 @@
 
 					if(fullLength){
 						//Number of BRs for the previous rows
-						var numBreaks = lines.length-fullLength.length+1;
+						var numBreaks = lines.length-fullLength.length+1
+							 ,row       = 0
+							 ,hasTitle  = (glosses[i].dataset.title !== "0")
+							 ,titleText = ""
+						   ;
+
 						fullLengthOutput = (new Array(numBreaks)).join("<br/>");
-						for (var row = 0; row < fullLength.length; row++) {
+						for (row; row < fullLength.length; row++) {
 							fullLengthOutput += "<div class=\"gloss-row gloss-full "+options.rowClasses[lines.length]+"\">"+fullLength[row]+"</div>";
 						}
 					}
 
+					output = output.replace('<title>',title);
 					glosses[i].innerHTML = output+fullLengthOutput;
 
 					//Don't duplicate on reconfiguration
